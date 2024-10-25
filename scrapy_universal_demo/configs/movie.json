@@ -5,30 +5,76 @@
   "settings": {
     "USER_AGENT": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
   },
-  "start_urls": ["https://ssr1.scrape.center"],
-  "allowed_domains": ["ssr1.scrape.center"],
+  "start_urls": [
+    "https://ssr1.scrape.center"
+  ],
+  "allowed_domains": [
+    "ssr1.scrape.center"
+  ],
   "rules": [
     {
-      "link_extractor": {"restrict_css":  ".item .name"},
+      "link_extractor": {
+        "restrict_css": ".item .name"
+      },
       "follow": true,
       "callback": "parse_detail"
     },
     {
-      "link_extractor": {"restrict_css": ".next"},
+      "link_extractor": {
+        "restrict_css": ".next"
+      },
       "follow": false
     }
-
   ],
   "item": {
     "class": "MovieItem",
-    "loader": "MovieItemLoader",
     "attrs": {
-      "name": {"method": "css", "arg": ".item h2::text"},
-      "cover": {"method": "css", "arg": ".cover::attr(src)"},
-      "categories": {"method": "css", "arg": ".categories .category span::text"},
-      "published_at": {"method": "css", "arg": ".info span::text", "re": "(\\d{4}-\\d{2}-\\d{2})\\s?上映"},
-      "drama": {"method": "css", "arg": ".drama p::text"},
-      "score": {"method": "css", "arg": "p.score::text"}
+      "name": {
+        "method": "css",
+        "arg": ".item h2::text"
+      },
+      "cover": {
+        "method": "css",
+        "arg": ".cover::attr(src)"
+      },
+      "categories": {
+        "method": "css",
+        "arg": ".categories .category span::text"
+      },
+      "published_at": {
+        "method": "css",
+        "arg": ".info span::text",
+        "re": "(\\d{4}-\\d{2}-\\d{2})\\s?上映"
+      },
+      "drama": {
+        "method": "css",
+        "arg": ".drama p::text"
+      },
+      "score": {
+        "method": "css",
+        "arg": "p.score::text"
+      }
+    }
+  },
+  "loader": {
+    "class": "MovieItemLoader",
+    "attrs": {
+      "default_output_processor": "TakeFirst",
+      "categories_out": "Identity",
+      "score_out": [
+        "Compose",
+        [
+          "TakeFirst",
+          "str.strip"
+        ]
+      ],
+      "drama_out": [
+        "Compose",
+        [
+          "TakeFirst",
+          "str.strip"
+        ]
+      ]
     }
   }
 }

@@ -1,9 +1,10 @@
-import scrapy
 from scrapy.http import Response
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 
-from .. import utils, items, loaders
+from .. import utils
+from ..items import item_class_factory
+from ..loaders import loader_factory
 
 
 class UniversalSpider(CrawlSpider):
@@ -24,15 +25,17 @@ class UniversalSpider(CrawlSpider):
         super(UniversalSpider, self).__init__(*args, **kwargs)
 
     def parse_detail(self, response: Response):
-        item: dict | None = self.config.get("item")
-        if not item:
-            self.logger.warning("未配置 item 信息")
+        item_conf: dict | None = self.config.get("item")
+        loader_conf: dict | None = self.config.get("loader")
+        if not item_conf or not loader_conf:
+            self.logger.warning("未配置 item/loader 信息")
             return
 
-        cls = getattr(items, item["class"])()
-        loader = getattr(loaders, item["loader"])(cls, response=response)
+        item = item_class_factory(item_conf["class"], item_conf["attrs"].keys())()
+        loader_cls = loader_factory(loader_conf["class"], loader_conf["attrs"])
+        loader = loader_cls(item, response=response)
 
-        for key, extractor in item["attrs"].items():
+        for key, extractor in item_conf["attrs"].items():
             loader_add = getattr(loader, f"add_{extractor['method']}")
             loader_add(key, extractor["arg"], re=extractor.get('re'))
 
