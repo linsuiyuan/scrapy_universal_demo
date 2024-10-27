@@ -1,0 +1,43 @@
+{
+  "spider": "universal",
+  "type": "百度搜索",
+  "home": "https://baike.baidu.com/",
+  "settings": {
+    "USER_AGENT": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+  },
+  "start_urls": [
+    "https://www.bejson.com/knownjson/webInterface/"
+  ],
+  "allowed_domains": [
+    "www.bejson.com",
+    "baike.baidu.com"
+  ],
+  "rules": [
+    {
+      "link_extractor": {
+        "restrict_css": ".interface-list .test"
+      },
+      "follow": true,
+      "callback": "parse_list"
+    }
+  ],
+  "item": {
+    "class": "SearchItem",
+    "restrict_selector": {
+      "method": "jmes",
+      "arg": "card"
+    },
+    "attrs": {
+      "key": {
+        "method": "jmes",
+        "arg": "key"
+      }
+    }
+  },
+  "loader": {
+    "class": "SearchItemLoader",
+    "attrs": {
+      "default_output_processor": "Identity"
+    }
+  }
+}

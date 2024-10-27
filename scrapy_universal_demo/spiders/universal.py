@@ -1,4 +1,4 @@
-from scrapy.http import Response
+from scrapy.http import Response, TextResponse
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 
@@ -40,3 +40,32 @@ class UniversalSpider(CrawlSpider):
             loader_add(key, extractor["arg"], re=extractor.get('re'))
 
         yield loader.load_item()
+
+    def parse_list(self, response: Response):
+        item_conf: dict | None = self.config.get("item")
+        loader_conf: dict | None = self.config.get("loader")
+        if not item_conf or not loader_conf:
+            self.logger.warning("未配置 item/loader 信息")
+            return
+
+        restrict = item_conf['restrict_selector']
+        match restrict['method']:
+            case "jmes":
+                selectors = response.jmespath(restrict['arg'])
+            case "css":
+                selectors = response.css(restrict['arg'])
+            case "xpath":
+                selectors = response.xpath(restrict['arg'])
+            case _:
+                raise TypeError("不支持的方法")
+
+        for sel in selectors:
+            item = item_class_factory(item_conf["class"], item_conf["attrs"].keys())()
+            loader_cls = loader_factory(loader_conf["class"], loader_conf["attrs"])
+            loader = loader_cls(item, selector=sel)
+
+            for key, extractor in item_conf["attrs"].items():
+                loader_add = getattr(loader, f"add_{extractor['method']}")
+                loader_add(key, extractor["arg"], re=extractor.get('re'))
+
+            yield loader.load_item()
