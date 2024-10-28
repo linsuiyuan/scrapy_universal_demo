@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 from scrapy.utils.project import get_project_settings
 from scrapy.crawler import CrawlerProcess
 
-from scrapy_universal_demo import utils
+from universal import utils
 
 parser = ArgumentParser(description="通用 Spider")
 parser.add_argument("name", help="需要爬取的 Spider 的名称")

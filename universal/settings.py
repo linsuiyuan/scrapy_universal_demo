@@ -1,4 +1,4 @@
-# Scrapy settings for scrapy_universal_demo project
+# Scrapy settings for universal project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,13 +7,13 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "scrapy_universal_demo"
+BOT_NAME = "universal"
 
-SPIDER_MODULES = ["scrapy_universal_demo.spiders"]
-NEWSPIDER_MODULE = "scrapy_universal_demo.spiders"
+SPIDER_MODULES = ["universal.spiders"]
+NEWSPIDER_MODULE = "universal.spiders"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = "scrapy_universal_demo (+http://www.yourdomain.com)"
+# USER_AGENT = "universal (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -44,13 +44,13 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 # SPIDER_MIDDLEWARES = {
-#    "scrapy_universal_demo.middlewares.ScrapyUniversalDemoSpiderMiddleware": 543,
+#    "universal.middlewares.ScrapyUniversalDemoSpiderMiddleware": 543,
 # }
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 # DOWNLOADER_MIDDLEWARES = {
-#    "scrapy_universal_demo.middlewares.ScrapyUniversalDemoDownloaderMiddleware": 543,
+#    "universal.middlewares.ScrapyUniversalDemoDownloaderMiddleware": 543,
 # }
 
 # Enable or disable extensions
@@ -62,7 +62,7 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 # ITEM_PIPELINES = {
-#    "scrapy_universal_demo.pipelines.ScrapyUniversalDemoPipeline": 300,
+#    "universal.pipelines.ScrapyUniversalDemoPipeline": 300,
 # }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

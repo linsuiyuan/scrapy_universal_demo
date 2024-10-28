@@ -13,8 +13,14 @@ class MovieItem(Item):
     score = Field()
 
 
-def item_class_factory(item_name: str, attrs: Iterable[str]):
-    return type(item_name,
+def item_class_factory(cls_name: str, attrs: Iterable[str]):
+    """
+    Item 类创建工厂
+    :param cls_name: 类名
+    :param attrs: 属性序列
+    :return:
+    """
+    return type(cls_name,
                 (Item,),
                 {n: Field() for n in attrs})
 

@@ -2,8 +2,8 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.http import Response
 
-from scrapy_universal_demo.items import MovieItem
-from scrapy_universal_demo.loaders import MovieItemLoader
+from universal.items import MovieItem
+from universal.loaders import MovieItemLoader
 
 
 class MovieSpider(CrawlSpider):

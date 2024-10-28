@@ -59,22 +59,10 @@
   "loader": {
     "class": "MovieItemLoader",
     "attrs": {
-      "default_output_processor": "TakeFirst",
-      "categories_out": "Identity",
-      "score_out": [
-        "Compose",
-        [
-          "TakeFirst",
-          "str.strip"
-        ]
-      ],
-      "drama_out": [
-        "Compose",
-        [
-          "TakeFirst",
-          "str.strip"
-        ]
-      ]
+      "default_output_processor": ["TakeFirst"],
+      "categories_out": ["Identity"],
+      "score_out": ["Compose",["TakeFirst"], ["Strip"]],
+      "drama_out": ["Compose", ["TakeFirst"], ["Strip"]]
     }
   }
 }

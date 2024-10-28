@@ -4,7 +4,7 @@ from scrapy.spiders import CrawlSpider, Rule
 
 from .. import utils
 from ..items import item_class_factory
-from ..loaders import loader_factory
+from ..loaders import loader_class_factory
 
 
 class UniversalSpider(CrawlSpider):
@@ -31,8 +31,11 @@ class UniversalSpider(CrawlSpider):
             self.logger.warning("未配置 item/loader 信息")
             return
 
-        item = item_class_factory(item_conf["class"], item_conf["attrs"].keys())()
-        loader_cls = loader_factory(loader_conf["class"], loader_conf["attrs"])
+        item_cls = item_class_factory(cls_name=item_conf["class"],
+                                      attrs=item_conf["attrs"].keys())
+        item = item_cls()
+        loader_cls = loader_class_factory(cls_name=loader_conf["class"],
+                                          attrs=loader_conf["attrs"])
         loader = loader_cls(item, response=response)
 
         for key, extractor in item_conf["attrs"].items():
@@ -61,7 +64,7 @@ class UniversalSpider(CrawlSpider):
 
         for sel in selectors:
             item = item_class_factory(item_conf["class"], item_conf["attrs"].keys())()
-            loader_cls = loader_factory(loader_conf["class"], loader_conf["attrs"])
+            loader_cls = loader_class_factory(loader_conf["class"], loader_conf["attrs"])
             loader = loader_cls(item, selector=sel)
 
             for key, extractor in item_conf["attrs"].items():
